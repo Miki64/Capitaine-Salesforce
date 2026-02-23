@@ -1,0 +1,42 @@
+<template>
+    <lightning-card title="Retours de l'Enquête" icon-name="standard:survey">
+        <template if:true={hasData}>
+            <div class="slds-p-around_medium">
+                <ul class="slds-has-dividers_around-space">
+                    <template for:each={surveyResponses} for:item="resp">
+                        <li key={resp.Id} class="slds-item slds-box slds-box_small slds-m-bottom_x-small">
+                            <lightning-layout vertical-align="center" multiple-rows>
+                                <lightning-layout-item padding="around-small" size="12" small-device-size="8">
+                                    <h3 class="slds-text-heading_small slds-truncate" title={resp.QuestionName}>{resp.QuestionName}</h3>
+                                    <p class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small">
+                                        <lightning-icon icon-name="utility:event" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                                        <lightning-formatted-date-time value={resp.CreatedDate} year="numeric" month="short" day="2-digit"></lightning-formatted-date-time>
+                                    </p>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12" small-device-size="4" class="slds-text-align_right">
+                                    <span class={resp.BadgeClass}>
+                                        <span class="slds-text-title_bold slds-text-heading_medium">{resp.ResponseValue}</span>
+                                    </span>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </template>
+        <template if:true={error}>
+            <div class="slds-p-around_medium slds-text-color_error">
+                <lightning-icon icon-name="utility:error" size="small" variant="error" class="slds-m-right_x-small"></lightning-icon>
+                {error}
+            </div>
+        </template>
+        <template if:false={hasData}>
+            <template if:false={error}>
+                <div class="slds-p-around_medium slds-text-align_center slds-text-color_weak">
+                    <lightning-icon icon-name="utility:info_alt" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    Aucune réponse trouvée pour cette opportunité.
+                </div>
+            </template>
+        </template>
+    </lightning-card>
+</template>
